@@ -1,0 +1,31 @@
+{
+  "name": "dotrip",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "nodemonConfig": {
+    "ignore": ["sessions/*.json"]
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blcocas/dotrip_server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/blcocas/dotrip_server/issues"
+  },
+  "homepage": "https://github.com/blcocas/dotrip_server#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "morgan": "^1.9.1",
+    "nodemon": "^1.18.6",
+    "session-file-store": "^1.2.0"
+  }
+}
