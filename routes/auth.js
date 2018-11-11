@@ -16,7 +16,7 @@ MongoClient.connect("mongodb+srv://root:ghdwo966@cluster0-b9ez3.mongodb.net/dotr
         cl = collection = db.collection('user'); // select Collection
       }
       else
-        console.log("MongoDB Connection ERROR");
+        console.log(err);
 })
 
 /*-------------------------------------------------------------
