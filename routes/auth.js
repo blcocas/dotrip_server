@@ -97,7 +97,7 @@ router.post('/signup',function(req,res){
     res.json({success : 1, message : 'signup success'});
   }
   else{
-    res.json({success : 0, message : 'logout failed'});
+    res.json({success : 0, message : 'signup failed'});
   }
 })
 /*-------------------------------------------------------------
