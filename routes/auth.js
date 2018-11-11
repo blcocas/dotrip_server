@@ -8,7 +8,7 @@ router.use(bodyParser.json());
 
 const {MongoClient} = require('mongodb');
 var cl;
-MongoClient.connect("mongodb://localhost:27017",{
+MongoClient.connect("mongodb+srv://root:ghdwo966@cluster0-b9ez3.mongodb.net/test?retryWrites=true",{
     useNewUrlParser : true},(err,client)=>{
       if(!err){
         console.log("MongoDB Connected.");
