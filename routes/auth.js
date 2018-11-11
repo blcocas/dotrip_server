@@ -8,7 +8,7 @@ router.use(bodyParser.json());
 
 const {MongoClient} = require('mongodb');
 var cl;
-MongoClient.connect("mongodb+srv://root:ghdwo966@cluster0-b9ez3.mongodb.net/dotrip",{
+MongoClient.connect("mongodb+srv://root:ghdwo966@cluster0-b9ez3.mongodb.net/",{
     useNewUrlParser : true},(err,client)=>{
       if(!err){
         console.log("MongoDB Connected.");
