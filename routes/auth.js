@@ -91,7 +91,10 @@ router.post('/signup',function(req,res){
   var name = req.body.name;
   var id = req.body.id;
   var pass= req.body.pass;
-  var db_id = 'hongss94'; //db_query
+  c1.findOne({id : id},function(err,result){
+    if(result != null)
+      res.json({success  0, message : 'id duplicated'});
+  })
   if(id != db_id){
     //dbinsert!-----------
     insert_user(name,id,pass);
