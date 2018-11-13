@@ -91,19 +91,19 @@ router.post('/signup',function(req,res){
   var name = req.body.name;
   var id = req.body.id;
   var pass= req.body.pass;
-  c1.findOne({id : id},function(err,result){
-    if(result != null)
-      res.json({success  0, message : 'id duplicated'});
+  cl.findOne({id : id},function(err,result){
+    if(id != result.id){
+      //dbinsert!-----------
+      insert_user(name,id,pass);
+      //--------------------
+      res.json({success : 1, message : 'signup success'});
+    }
+    else{
+      res.json({success : 0, message : 'signup failed'});
+    }
   })
-  if(id != db_id){
-    //dbinsert!-----------
-    insert_user(name,id,pass);
-    //--------------------
-    res.json({success : 1, message : 'signup success'});
-  }
-  else{
-    res.json({success : 0, message : 'signup failed'});
-  }
+
+
 })
 /*-------------------------------------------------------------
 FUNCTION
