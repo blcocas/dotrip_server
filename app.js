@@ -36,6 +36,9 @@ app.get('/',function(req,res){
   res.render('root');
 })
 
+app.get('/test',function(req,res){
+  res.json({test : 'test'});
+})
 /*-------------------------------------------------------------
 FUNCTION
 --------------------------------------------------------------*/

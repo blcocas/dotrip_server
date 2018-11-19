@@ -92,7 +92,7 @@ router.post('/signup',function(req,res){
   var id = req.body.id;
   var pass= req.body.pass;
   cl.findOne({id : id},function(err,result){
-    if(id != result.id){
+    if(result == null){
       //dbinsert!-----------
       insert_user(name,id,pass);
       //--------------------
