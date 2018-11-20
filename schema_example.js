@@ -1,7 +1,7 @@
 user collection = {
   "name"   : "이홍재",
   "id"     : "hongss94",
-  "pass"   : 1234,
+  "pass"   : pass,
   "dot"    : [
   1234,3453,1534  //dot의 _id
   ]
