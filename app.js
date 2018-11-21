@@ -15,8 +15,9 @@ app.use(session({
 }));
 
 const auth = require('./routes/auth');
+const dot = require('./routes/dot');
 app.use('/auth',auth);
-
+app.use('/dot',dot);
 app.use(express.static('public')); //static파일 디렉토리
 
 app.set('views','./views'); //templete파일 디렉토리
