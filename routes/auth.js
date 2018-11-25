@@ -2,10 +2,15 @@ var express = require('express');
 var router = express.Router();
 const app = require('../app.js');
 
+
 var bodyParser = require('body-parser');
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
 
+// const mongo = require('../db/mongo.js')
+// var cl = mongo.user_cl().then(function(result){
+//   console.log(result);
+// });
 const {MongoClient} = require('mongodb');
 var cl;
 MongoClient.connect("mongodb+srv://root:ghdwo966@cluster0-b9ez3.mongodb.net/",{
@@ -18,7 +23,6 @@ MongoClient.connect("mongodb+srv://root:ghdwo966@cluster0-b9ez3.mongodb.net/",{
       else
         console.log(err);
 })
-
 /*-------------------------------------------------------------
 ROUTER
 --------------------------------------------------------------*/
@@ -66,6 +70,7 @@ router.post('/login',function(req,res){
     }
     else if(id === result.id && pass === result.pass){
       console.log('mongo_login success');
+      // console.log(result);
       sess.name = result.name;
       sess.user_id = result.id; //user_id가 session key
       req.session.save(function(){
