@@ -70,7 +70,7 @@ function get_dot_list(id){
 }
 
 //save--------------------------------------------------------------------------
-//dot collection에 insert한후 해당 _id_list 반환 (검증완료)
+//dot collection에 insert한후 해당 _id_list 반환
 function insert_dot(dot_list){
   return new Promise(function(resolve,reject){
     // console.log(dot_list);
@@ -87,7 +87,7 @@ function insert_dot(dot_list){
   })
 }
 
-//user 클래스에 현재 로그인되어있는 아이디로 link하기 (검증완료)
+//user 클래스에 현재 로그인되어있는 아이디로 link하기
 function update_user_link(req,res,_id_list){
   return new Promise(function(resolve,reject){
     user_cl.updateOne({id : req.session.user_id},

@@ -46,8 +46,8 @@ FUNCTION
 /*-------------------------------------------------------------
 SERVER
 --------------------------------------------------------------*/
-app.listen(6000, function(){
-  console.log('Connected to 6000 port!');
+app.listen(3000, function(){
+  console.log('Connected to 3000 port!');
 })
 
 module.exports = app;
