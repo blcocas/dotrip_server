@@ -45,18 +45,19 @@ router.post('/save',function(req,res){
 
   if(user_id){
     //원래 있던 데이타들 삭제
+
     find_dot_and_delete(user_id)
     .then(function(){
-      delete_user_dot_list(user_id);
-    })
-    //새로운 데이타 입력
-    insert_dot(dotList)
-    .then(function(_id_list){
-      console.log("insert_dot : "+_id_list)
-      update_user_link(req,res,_id_list).then(function(success){
-        res.json({success : success, message : "저장 1이면 성공, 0이면 실패"})
+      delete_user_dot_list(user_id)})
+    .then(function(){
+      insert_dot(dotList)
+      .then(function(_id_list){
+        console.log("insert_dot : "+_id_list)
+        update_user_link(req,res,_id_list).then(function(success){
+          res.json({success : success, message : "저장 1이면 성공, 0이면 실패"})
+        });
       });
-    });
+    })
   }
   else{
     res.json({success : 0, message : "로그인이 되어있지 않음"})
