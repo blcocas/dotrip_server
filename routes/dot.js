@@ -66,21 +66,19 @@ router.post('/save',function(req,res){
 // LoadOne
 // 뷰에서 닷의 Num을 URL 파라미터로 받아서, 해당 닷의 넘버에 해당하는 닷정보를 보내준다.
 router.get('/loadone/:num',function(req,res){
- var dotNum = req.params.num; // dot_num을 파라미터로 받음
-    console.log(req.session.user_id);
-    if(req.session.user_id){
-      var id = req.session.user_id;
-      user_cl.findOne({id : id},function(err,result){
-        console.log(result.dot_list[dotNum]);
-        var dotId = result.dot_list[dotNum];
-        dot_cl.findOne({_id : dotId},function(err,result){
-          res.json({success :1, message :"dot하나 불러오기 성공", data : result});
-        })
+  var dotNum = req.params.num; // dot_num을 파라미터로 받음
+  if(req.session.user_id){
+    var id = req.session.user_id;
+    user_cl.findOne({id : id},function(err,result){
+      var dotId = result.dot_list[dotNum];
+      dot_cl.findOne({_id : dotId},function(err,result){
+      res.json({success :1, message :"dot하나 불러오기 성공", data : result});
       })
-    }
-    else{
+    })
+  }
+  else{
       res.json({success : 0, message : "로그인이 되어있지 않음"})
-    }
+  }
 });
 
 // SaveOne
@@ -88,10 +86,10 @@ router.get('/loadone/:num',function(req,res){
 router.post('/saveone',function(req,res){
   var dotNum = req.body.num;
   var dot = req.body.dot;
+  console.log(dot);
   if(req.session.user_id){
     var id = req.session.user_id;
     user_cl.findOne({id : id},function(err,result){
-      console.log(result.dot_list[dotNum]);
       var dotId = result.dot_list[dotNum];
       dot_cl.updateOne({_id : dotId},
         {
@@ -108,7 +106,7 @@ router.post('/saveone',function(req,res){
     res.json({success : 0, message : "로그인이 되어있지 않음"})
   }
  });
- 
+
 
 
 
@@ -138,7 +136,7 @@ function get_dot_list(id){
 //   //console.log("Dot 생성 성공!! dotID:  "+result.ops[0]._id);
 //   //console.log("dot에 저장된 체크리스트 갯수 : ",checkNum);
 //   dotId = result.ops[0]._id;  //result.ops[0]._id를 사용해야 result에서 _id를 받아올수 있다.
-  
+
 //   // 로그인한 유저 dot배열에 방금 위에서 생성한 dotId를 추가해야한다.
 //   cl = collection = db.collection('UserList'); // select  UserList Collection
 //   cl.updateOne({id : user_id},{ $push: { dot: dotId } },function(err,result){
