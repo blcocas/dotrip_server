@@ -41,7 +41,15 @@ router.get('/load',function(req,res){
 // dot 저장하기
 router.post('/save',function(req,res){
   var dotList = req.body.dotList;
-  if(req.session.user_id){
+  var user_id =req.session.user_id;
+
+  if(user_id){
+    //원래 있던 데이타들 삭제
+    find_dot_and_delete(user_id)
+    .then(function(){
+      delete_user_dot_list(user_id);
+    })
+    //새로운 데이타 입력
     insert_dot(dotList)
     .then(function(_id_list){
       console.log("insert_dot : "+_id_list)
@@ -152,6 +160,34 @@ function get_dot_list(id){
 
 
 //save--------------------------------------------------------------------------
+function delete_user_dot_list(user_id){
+  return new Promise(function(resolve,reject){
+    user_cl.updateOne({id : user_id},
+    {
+      $set:{
+        dot_list : []
+      }
+    },function(err,result){
+      if(err) console.log(err);
+      else{
+        // console.log(result);
+        resolve(1);
+      }
+    })
+  })
+}
+
+function find_dot_and_delete(user_id){
+  return new Promise(function(resolve,reject){
+    user_cl.findOne({id : user_id},function(err,result){
+      var removeList = result.dot_list;
+      for(i in removeList){
+        dot_cl.remove({_id : removeList[i]});
+      }
+      resolve(1);
+    })
+  })
+}
 //dot collection에 insert한후 해당 _id_list 반환 (검증완료)
 function insert_dot(dot_list){
   return new Promise(function(resolve,reject){
