@@ -63,7 +63,7 @@ router.post('/save',function(req,res){
 })
 
 
-// One Load
+// LoadOne
 // 뷰에서 닷의 Num을 URL 파라미터로 받아서, 해당 닷의 넘버에 해당하는 닷정보를 보내준다.
 router.get('/loadone/:num',function(req,res){
  var dotNum = req.params.num; // dot_num을 파라미터로 받음
@@ -83,6 +83,31 @@ router.get('/loadone/:num',function(req,res){
     }
 });
 
+// SaveOne
+// 뷰에서 닷과 닷의 Num을 Post 받아서, 해당 닷의 넘버에 해당하는 닷객체를 업데이트 한다.
+router.post('/saveone',function(req,res){
+  var dotNum = req.body.num;
+  var dot = req.body.dot;
+  if(req.session.user_id){
+    var id = req.session.user_id;
+    user_cl.findOne({id : id},function(err,result){
+      console.log(result.dot_list[dotNum]);
+      var dotId = result.dot_list[dotNum];
+      dot_cl.updateOne({_id : dotId},
+        {
+          $set :{
+            checkList : dot.checkList
+          }
+        },
+        function(err,result){
+        res.json({success :1, message :"dot하나 저장 성공", data : result});
+      })
+    })
+  }
+  else{
+    res.json({success : 0, message : "로그인이 되어있지 않음"})
+  }
+ });
  
 
 
