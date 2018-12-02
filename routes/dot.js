@@ -37,7 +37,15 @@ router.get('/load',function(req,res){
   }
 })
 
-//dot 저장하기
+router.get('/one',function(req,res){
+  console.log("asdasd");
+  res.json('asdasdad');
+})
+
+
+
+
+// dot 저장하기
 router.post('/save',function(req,res){
   var dotList = req.body.dotList;
   if(req.session.user_id){
@@ -53,6 +61,32 @@ router.post('/save',function(req,res){
     res.json({success : 0, message : "로그인이 되어있지 않음"})
   }
 })
+
+
+// One Load
+// 뷰에서 닷의 Num을 URL 파라미터로 받아서, 해당 닷의 넘버에 해당하는 닷정보를 보내준다.
+router.get('/loadone/:num',function(req,res){
+ var dotNum = req.params.num; // dot_num을 파라미터로 받음
+    console.log(req.session.user_id);
+    if(req.session.user_id){
+      var id = req.session.user_id;
+      user_cl.findOne({id : id},function(err,result){
+        console.log(result.dot_list[dotNum]);
+        var dotId = result.dot_list[dotNum];
+        dot_cl.findOne({_id : dotId},function(err,result){
+          res.json({success :1, message :"dot하나 불러오기 성공", data : result});
+        })
+      })
+    }
+    else{
+      res.json({success : 0, message : "로그인이 되어있지 않음"})
+    }
+});
+
+ 
+
+
+
 /*-------------------------------------------------------------
 FUNCTION
 --------------------------------------------------------------*/
@@ -63,21 +97,39 @@ function get_dot_list(id){
     user_cl.findOne({id : id},function(err,result){
       dot_cl.find({_id : {$in: result.dot_list}}).toArray(function(err,result){
         if(err) console.log(err);
-        else {
-          for(dot in result){
-            delete result[dot]._id;
-            // console.log(result[dot]);
-          }
-          // console.log(result);
-          resolve(result);
-        }
+        else resolve(result);
       })
     })
   })
 }
 
+
+
+
+// //////
+
+
+// cl.insertOne({mainCity:mainCity,inDay:inDay,outDay:outDay,checkList:[{title : checkList_title,action : checkList_action}]},function(err,result){
+//   //console.log("Dot 생성 성공!! dotID:  "+result.ops[0]._id);
+//   //console.log("dot에 저장된 체크리스트 갯수 : ",checkNum);
+//   dotId = result.ops[0]._id;  //result.ops[0]._id를 사용해야 result에서 _id를 받아올수 있다.
+  
+//   // 로그인한 유저 dot배열에 방금 위에서 생성한 dotId를 추가해야한다.
+//   cl = collection = db.collection('UserList'); // select  UserList Collection
+//   cl.updateOne({id : user_id},{ $push: { dot: dotId } },function(err,result){
+//     console.log("추가한 dot ID: "+ dotId);
+//     //console.log(result);
+//   })
+// })
+
+
+//One Save
+// 뷰에서 닷의 Num과 닷객체를 받아서 , 해당 닷의 넘버에 닷객체를 업데이트 한다.
+
+
+
 //save--------------------------------------------------------------------------
-//dot collection에 insert한후 해당 _id_list 반환
+//dot collection에 insert한후 해당 _id_list 반환 (검증완료)
 function insert_dot(dot_list){
   return new Promise(function(resolve,reject){
     // console.log(dot_list);
@@ -94,7 +146,7 @@ function insert_dot(dot_list){
   })
 }
 
-//user 클래스에 현재 로그인되어있는 아이디로 link하기
+//user 클래스에 현재 로그인되어있는 아이디로 link하기 (검증완료)
 function update_user_link(req,res,_id_list){
   return new Promise(function(resolve,reject){
     user_cl.updateOne({id : req.session.user_id},
