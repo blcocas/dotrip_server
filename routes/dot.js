@@ -65,8 +65,10 @@ function get_dot_list(id){
         if(err) console.log(err);
         else {
           for(dot in result){
-            delete dot._id;
+            delete result[dot]._id;
+            // console.log(result[dot]);
           }
+          // console.log(result);
           resolve(result);
         }
       })
