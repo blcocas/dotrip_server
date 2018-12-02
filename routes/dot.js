@@ -63,7 +63,12 @@ function get_dot_list(id){
     user_cl.findOne({id : id},function(err,result){
       dot_cl.find({_id : {$in: result.dot_list}}).toArray(function(err,result){
         if(err) console.log(err);
-        else resolve(result);
+        else {
+          for(dot in result){
+            delete dot._id;
+          }
+          resolve(result);
+        }
       })
     })
   })
