@@ -50,6 +50,8 @@ router.post('/save',function(req,res){
     .then(function(){
       delete_user_dot_list(user_id)})
     .then(function(){
+      if(dotList.length == 0)
+        res.json({success : 1, message : "삭제 성공"});
       insert_dot(dotList)
       .then(function(_id_list){
         console.log("insert_dot : "+_id_list)
