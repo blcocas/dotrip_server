@@ -29,20 +29,10 @@ ROUTER
 //demo form-----------------------------------------------------
 router.get('/',function(req,res){
   if(req.session.user_id){
-    var output = `
-    <h1>LOGIN SUCCESS!</h1>
-    <p>You Are ${req.session.user_id} ${req.session.name}</p>
-    <a href='/auth/logout'/>LOGOUT</a>
-    `;
-    res.send(output);
+    res.json({success : 1, message : "logined"});
   }
   else{
-    var output = `
-    <h1>LOGIN FAILED!</h1>
-    <p>You Are ${req.session.user_id} ${req.session.name}</p>
-    <a href='/auth/login'/>LOGIN</a>
-    `;
-    res.send(output);
+    res.json({success : 0, message : "not logined"});
   }
 })
 //login
