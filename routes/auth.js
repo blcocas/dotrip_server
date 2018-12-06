@@ -28,6 +28,7 @@ ROUTER
 --------------------------------------------------------------*/
 //demo form-----------------------------------------------------
 router.get('/',function(req,res){
+
   if(req.session.user_id){
     var output = `
     <h1>LOGIN SUCCESS!</h1>
@@ -36,6 +37,7 @@ router.get('/',function(req,res){
     `;
     res.send(output);
   }
+
   else{
     var output = `
     <h1>LOGIN FAILED!</h1>
@@ -44,6 +46,7 @@ router.get('/',function(req,res){
     `;
     res.send(output);
   }
+
 })
 //login
 router.get('/login',function(req,res){
@@ -70,12 +73,12 @@ router.post('/login',function(req,res){
     }
     else if(id === result.id && pass === result.pass){
       console.log('mongo_login success');
-      // console.log(result);
+        // console.log(result);
       sess.name = result.name;
       sess.user_id = result.id; //user_id가 session key
       req.session.save(function(){
         // res.redirect('.');
-        res.json({success : 1, message: 'login success'});
+      res.json({success : 1, message: 'login success'});
       })
     }
   })

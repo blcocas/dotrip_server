@@ -5,6 +5,7 @@ const fs = require("fs");
 const json2xls = require("json2xls");
 const path = require("path");
 var bodyParser = require("body-parser");
+
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
 
@@ -119,6 +120,50 @@ router.post("/saveone", function(req, res) {
   }
 });
 
+// 엑셀파일 저장.(체크리스트 안뜸..)
+router.use(json2xls.middleware); //res.xls 사용하기위해
+
+router.get("/excel", function(req, res) {
+  if (req.session.user_id) {
+    // 로그인한 아이디에 해당하는 dot리스트들을 가져옴.
+    get_dot_list(req.session.user_id).then(function(list) {
+
+      // dot중에서 가장 체크리스트가 큰값을 max변수에 저장.
+      var max;
+      for (let i = 0; i < list.length; i++) {
+        if (!list[i].checkList) {
+        } else {
+          for (let j = 0; j < list[i].checkList.length; j++) {
+            max = list[0].checkList.length;
+            if (max < list[i].checkList.length) max = list[i].checkList.length;
+          }
+        }
+      }
+
+      // 엑셀에 표시할 체크리스트 동적으로 셋팅
+      for(var i = 1; i <= max; i++)
+      {
+        list[0]['title'+i] = " ";
+        list[0]['action'+i] = " ";
+      }
+
+      // 엑셀에서는 체크리스트가 표시되지 않으므로 표시되도록 작업.
+      for (let i = 0; i < list.length; i++) {
+        if (!list[i].checkList) { // .lenth에 대한 에러처리.
+        } else {
+          for (let j = 0; j < list[i].checkList.length; j++) {
+            list[i]["title" + (j+1-'0')] = list[i].checkList[j].title;
+            list[i]["action" + (j+1)] = list[i].checkList[j].action;
+          }
+        }
+      }
+      delete list[0].checkList;
+      // 수정한 닷정보 리스트를 엑셀파일로 저장. 파일명은 아이디.xlsx
+      res.xls(req.session.user_id+".xlsx", list);
+    });
+  }
+});
+
 // 엑셀파일 다운로드. 할필요 x
 // router.get("/download/:file(*)", (req, res) => {
 //   var file = req.params.file; // 파일이름
@@ -126,17 +171,6 @@ router.post("/saveone", function(req, res) {
 //   //console.log(fileLocation);
 //   res.download(fileLocation, file);
 // });
-
-// 엑셀파일 저장.
-router.use(json2xls.middleware); //res.xls 사용하기위해
-router.get("/excel", function(req, res) {
-  if (req.session.user_id) {
-    get_dot_list(req.session.user_id).then(function(list) {
-      res.xls("data.xlsx", list);
-    });
-  } else {
-  }
-});
 
 /*-------------------------------------------------------------
 FUNCTION
@@ -163,23 +197,6 @@ function get_dot_list(id) {
   });
 }
 
-// //////
-
-// cl.insertOne({mainCity:mainCity,inDay:inDay,outDay:outDay,checkList:[{title : checkList_title,action : checkList_action}]},function(err,result){
-//   //console.log("Dot 생성 성공!! dotID:  "+result.ops[0]._id);
-//   //console.log("dot에 저장된 체크리스트 갯수 : ",checkNum);
-//   dotId = result.ops[0]._id;  //result.ops[0]._id를 사용해야 result에서 _id를 받아올수 있다.
-
-//   // 로그인한 유저 dot배열에 방금 위에서 생성한 dotId를 추가해야한다.
-//   cl = collection = db.collection('UserList'); // select  UserList Collection
-//   cl.updateOne({id : user_id},{ $push: { dot: dotId } },function(err,result){
-//     console.log("추가한 dot ID: "+ dotId);
-//     //console.log(result);
-//   })
-// })
-
-//One Save
-// 뷰에서 닷의 Num과 닷객체를 받아서 , 해당 닷의 넘버에 닷객체를 업데이트 한다.
 
 //save--------------------------------------------------------------------------
 function delete_user_dot_list(user_id) {
@@ -258,4 +275,5 @@ function savexls(user_id) {
     });
   });
 }
+
 module.exports = router;

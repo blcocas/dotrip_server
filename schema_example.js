@@ -1,4 +1,4 @@
-user collection = {
+user_collection = {
   "name"   : "이홍재",
   "id"     : "hongss94",
   "pass"   : 1234,
@@ -7,7 +7,7 @@ user collection = {
   ]
 }
 
-dot Collection =
+dot_Collection =
 {
 	"dotList" :
 	[

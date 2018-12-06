@@ -23,9 +23,11 @@
   },
   "homepage": "https://github.com/blcocas/dotrip_server#readme",
   "dependencies": {
+    "alasql": "^0.4.11",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
+    "json2csv": "^4.3.1",
     "json2xls": "^0.1.2",
     "json2xlsx": "^0.1.6",
     "mongodb": "^3.1.9",
