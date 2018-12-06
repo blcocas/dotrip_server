@@ -2,15 +2,10 @@ var express = require('express');
 var router = express.Router();
 const app = require('../app.js');
 
-
 var bodyParser = require('body-parser');
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
 
-// const mongo = require('../db/mongo.js')
-// var cl = mongo.user_cl().then(function(result){
-//   console.log(result);
-// });
 const {MongoClient} = require('mongodb');
 var cl;
 MongoClient.connect("mongodb+srv://root:ghdwo966@cluster0-b9ez3.mongodb.net/",{

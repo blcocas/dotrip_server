@@ -137,32 +137,8 @@ function get_dot_list(id){
   })
 }
 
-
-
-
-// //////
-
-
-// cl.insertOne({mainCity:mainCity,inDay:inDay,outDay:outDay,checkList:[{title : checkList_title,action : checkList_action}]},function(err,result){
-//   //console.log("Dot 생성 성공!! dotID:  "+result.ops[0]._id);
-//   //console.log("dot에 저장된 체크리스트 갯수 : ",checkNum);
-//   dotId = result.ops[0]._id;  //result.ops[0]._id를 사용해야 result에서 _id를 받아올수 있다.
-
-//   // 로그인한 유저 dot배열에 방금 위에서 생성한 dotId를 추가해야한다.
-//   cl = collection = db.collection('UserList'); // select  UserList Collection
-//   cl.updateOne({id : user_id},{ $push: { dot: dotId } },function(err,result){
-//     console.log("추가한 dot ID: "+ dotId);
-//     //console.log(result);
-//   })
-// })
-
-
-//One Save
-// 뷰에서 닷의 Num과 닷객체를 받아서 , 해당 닷의 넘버에 닷객체를 업데이트 한다.
-
-
-
 //save--------------------------------------------------------------------------
+//user의 dot list 삭제하기
 function delete_user_dot_list(user_id){
   return new Promise(function(resolve,reject){
     user_cl.updateOne({id : user_id},
@@ -179,7 +155,7 @@ function delete_user_dot_list(user_id){
     })
   })
 }
-
+//dot을 찾아서 삭제하기.
 function find_dot_and_delete(user_id){
   return new Promise(function(resolve,reject){
     user_cl.findOne({id : user_id},function(err,result){
