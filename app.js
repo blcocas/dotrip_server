@@ -16,6 +16,9 @@ app.use(session({
 
 const auth = require('./routes/auth');
 const dot = require('./routes/dot');
+
+// app.use('/api/auth',auth);
+// app.use('/api/dot',dot);
 app.use('/auth',auth);
 app.use('/dot',dot);
 app.use(express.static('public')); //static파일 디렉토리
@@ -33,6 +36,9 @@ MONGODB
 /*-------------------------------------------------------------
 ROUTER
 --------------------------------------------------------------*/
+// app.get('/',function(req,res){
+//   res.sendFile(path.join(__dirname, './public', 'index.html')); //vue-cli3
+// })
 app.get('/',function(req,res){
   res.render('root');
 })
