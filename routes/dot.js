@@ -3,13 +3,6 @@ var router = express.Router();
 const app = require("../app.js");
 const fs = require("fs");
 const json2xls = require("json2xls");
-var json2xlsx = require('node-json-xlsx');
-var json = {
-  foo: 'bar',
-  qux: 'moo',
-  poo: 123,
-  stux: new Date()
-};
 const path = require("path");
 var bodyParser = require("body-parser");
 router.use(bodyParser.urlencoded({ extended: false }));
@@ -18,7 +11,6 @@ router.use(bodyParser.json());
 const { MongoClient } = require("mongodb");
 var user_cl;
 var dot_cl;
-//var xls = json2xls(json);
 
 MongoClient.connect(
   "mongodb+srv://root:ghdwo966@cluster0-b9ez3.mongodb.net/",
@@ -34,6 +26,7 @@ MongoClient.connect(
     } else console.log(err);
   }
 );
+
 /*-------------------------------------------------------------
 ROUTER
 --------------------------------------------------------------*/
@@ -126,30 +119,24 @@ router.post("/saveone", function(req, res) {
   }
 });
 
-// 엑셀파일 다운로드.
-router.get("/download/:file(*)", (req, res) => {
-  var file = req.params.file; // 파일이름
-  var fileLocation = path.join("../../../../downloads", file); // 서버폴더
-  //console.log(fileLocation);
-  res.download(fileLocation, file);
-});
+// 엑셀파일 다운로드. 할필요 x
+// router.get("/download/:file(*)", (req, res) => {
+//   var file = req.params.file; // 파일이름
+//   var fileLocation = path.join("../../../../downloads", file); // 서버폴더
+//   //console.log(fileLocation);
+//   res.download(fileLocation, file);
+// });
 
 // 엑셀파일 저장.
-router.use(json2xls.middleware);
+router.use(json2xls.middleware); //res.xls 사용하기위해
 router.get("/excel", function(req, res) {
-//   var xlsx = json2xlsx(json,{
-//     fields: {poo:'string'},
-//     fieldNames: ['Poo']
-// });
-fs.writeFileSync('fdsfsd.xlsx', xlsx, 'binary');
   if (req.session.user_id) {
     get_dot_list(req.session.user_id).then(function(list) {
-      console.log(list);
-      res.xls("data_" + req.session.user_id + ".xlsx", list);
+      res.xls("data.xlsx", list);
     });
   } else {
   }
-}); 
+});
 
 /*-------------------------------------------------------------
 FUNCTION
