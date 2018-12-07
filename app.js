@@ -4,7 +4,7 @@ SETTING
 const express = require('express');
 const app = express();
 const morgan = require('morgan');
-
+app.use(require('connect-history-api-fallback')())
 const session = require('express-session');
 var FileStore = require('session-file-store')(session);
 app.use(session({
@@ -17,10 +17,10 @@ app.use(session({
 const auth = require('./routes/auth');
 const dot = require('./routes/dot');
 
-// app.use('/api/auth',auth);
-// app.use('/api/dot',dot);
-app.use('/auth',auth);
-app.use('/dot',dot);
+app.use('/api/auth',auth);
+app.use('/api/dot',dot);
+// app.use('/auth',auth);
+// app.use('/dot',dot);
 app.use(express.static('public')); //static파일 디렉토리
 
 app.set('views','./views'); //templete파일 디렉토리
@@ -36,12 +36,12 @@ MONGODB
 /*-------------------------------------------------------------
 ROUTER
 --------------------------------------------------------------*/
-// app.get('/',function(req,res){
-//   res.sendFile(path.join(__dirname, './public', 'index.html')); //vue-cli3
-// })
 app.get('/',function(req,res){
-  res.render('root');
+  res.sendFile(path.join(__dirname, './public', 'index.html')); //vue-cli3
 })
+// app.get('/',function(req,res){
+//   res.render('root');
+// })
 
 app.get('/test',function(req,res){
   res.json({test : 'test'});
