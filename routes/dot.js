@@ -117,12 +117,10 @@ router.post('/saveone',function(req,res){
 
  // 엑셀파일 저장.(체크리스트 안뜸..)
  router.use(json2xls.middleware); //res.xls 사용하기위해
-
  router.get("/excel", function(req, res) {
    if (req.session.user_id) {
      // 로그인한 아이디에 해당하는 dot리스트들을 가져옴.
      get_dot_list(req.session.user_id).then(function(list) {
-
        // dot중에서 가장 체크리스트가 큰값을 max변수에 저장.
        var max;
        for (let i = 0; i < list.length; i++) {
@@ -134,14 +132,12 @@ router.post('/saveone',function(req,res){
            }
          }
        }
-
        // 엑셀에 표시할 체크리스트 동적으로 셋팅
        for(var i = 1; i <= max; i++)
        {
          list[0]['title'+i] = " ";
          list[0]['action'+i] = " ";
        }
-
        // 엑셀에서는 체크리스트가 표시되지 않으므로 표시되도록 작업.
        for (let i = 0; i < list.length; i++) {
          if (!list[i].checkList) { // .lenth에 대한 에러처리.
@@ -155,6 +151,9 @@ router.post('/saveone',function(req,res){
        delete list[0].checkList;
        // 수정한 닷정보 리스트를 엑셀파일로 저장. 파일명은 아이디.xlsx
        res.xls(req.session.user_id+".xlsx", list);
+     }).catch(()=>{
+       res.redirect('http://localhost:8080/plan');
+       // res.json({success : 0, message : "there is no dot"});
      });
    }
  });
