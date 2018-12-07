@@ -152,7 +152,7 @@ router.post('/saveone',function(req,res){
        // 수정한 닷정보 리스트를 엑셀파일로 저장. 파일명은 아이디.xlsx
        res.xls(req.session.user_id+".xlsx", list);
      }).catch(()=>{
-       res.redirect('http://localhost:8080/plan');
+       res.redirect('13.209.77.95:8080/plan');
        // res.json({success : 0, message : "there is no dot"});
      });
    }
