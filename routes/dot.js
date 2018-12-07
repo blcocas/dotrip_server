@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const app = require('../app.js');
+app.use(require('connect-history-api-fallback')())
 
 const fs = require("fs");
 const json2xls = require("json2xls");
